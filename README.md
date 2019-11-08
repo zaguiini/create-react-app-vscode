@@ -1,4 +1,4 @@
-# Create React App
+# [Create React App](https://marketplace.visualstudio.com/items?itemName=zaguini.create-react-app-vscode)
 
 Easily create React apps using the official boilerplate, directly from VSCode!
 
