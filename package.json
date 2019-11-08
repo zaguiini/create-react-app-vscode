@@ -8,6 +8,10 @@
   "engines": {
     "vscode": "^1.39.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zaguiini/create-react-app-vscode.git"
+  },
   "categories": [
     "Other"
   ],
