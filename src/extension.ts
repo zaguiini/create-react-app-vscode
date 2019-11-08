@@ -87,11 +87,11 @@ export function activate(context: vscode.ExtensionContext) {
                   vscode.window.showErrorMessage(
                     'Failed to create your React app. Sorry :/ Try again!'
                   )
-                }
 
-                output.append(err.name)
-                output.append(err.stack || '')
-                output.show()
+                  output.append(err.name)
+                  output.append(err.stack || '')
+                  output.show()
+                }
 
                 return
               }
