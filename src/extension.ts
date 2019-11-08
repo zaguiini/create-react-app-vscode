@@ -6,6 +6,8 @@ import kill from 'tree-kill'
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand('extension.cra', () => {
+    let output = vscode.window.createOutputChannel('Create React App')
+
     const values = {
       path: '',
       id: '',
@@ -86,6 +88,10 @@ export function activate(context: vscode.ExtensionContext) {
                     'Failed to create your React app. Sorry :/ Try again!'
                   )
                 }
+
+                output.append(err.name)
+                output.append(err.stack || '')
+                output.show()
 
                 return
               }
