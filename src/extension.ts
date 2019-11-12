@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
     const values = {
       path: '',
       id: '',
-      typeScript: false,
+      typeScript: false
     }
 
     const input = vscode.window.createInputBox()
@@ -31,19 +31,18 @@ export function activate(context: vscode.ExtensionContext) {
       values.id = input.value
       input.dispose()
 
-      await vscode.window.showQuickPick(['Yep', 'Nope'], {
-        placeHolder: 'Typescript?',
-        onDidSelectItem: item => {
-          if (item === 'Yep') {
-            values.typeScript = true
-          }
-        },
+      const selectedItem = await vscode.window.showQuickPick(['Yep', 'Nope'], {
+        placeHolder: 'Typescript?'
       })
+
+      if (selectedItem === 'Yep') {
+        values.typeScript = true
+      }
 
       try {
         const result = await vscode.window.showOpenDialog({
           canSelectFolders: true,
-          canSelectFiles: false,
+          canSelectFiles: false
         })
 
         const path = get(result, '[0].path')
@@ -61,13 +60,13 @@ export function activate(context: vscode.ExtensionContext) {
         {
           title: 'Creating your React app',
           location: vscode.ProgressLocation.Notification,
-          cancellable: true,
+          cancellable: true
         },
         (progress, token) => {
           return new Promise(async (resolve, reject) => {
             const reportTimeout = setTimeout(() => {
               progress.report({
-                message: 'Hang on tight! I am working on it.',
+                message: 'Hang on tight! I am working on it.'
               })
             }, 5000)
 
@@ -77,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
               command += ' --typescript'
             }
 
-            const context = cp.exec(command, { cwd: values.path }, err => {
+            const context = cp.exec(command, { cwd: values.path }, (err) => {
               clearTimeout(reportTimeout)
 
               if (err) {
@@ -105,14 +104,14 @@ export function activate(context: vscode.ExtensionContext) {
                   'New window',
                   `Don't open`
                 )
-                .then(item => {
+                .then((item) => {
                   const appUri = vscode.Uri.file(
                     path.resolve(values.path, values.id)
                   )
 
                   if (item === 'Current workspace') {
                     vscode.workspace.updateWorkspaceFolders(0, 0, {
-                      uri: appUri,
+                      uri: appUri
                     })
                   } else if (item === 'New window') {
                     vscode.commands.executeCommand('vscode.openFolder', appUri)
@@ -131,7 +130,7 @@ export function activate(context: vscode.ExtensionContext) {
                   'Delete it',
                   'Keep it as it is'
                 )
-                .then(item => {
+                .then((item) => {
                   if (item === 'Delete it') {
                     cp.exec(`rm -rf ${values.id}`, { cwd: values.path })
                   }
