@@ -4,7 +4,7 @@
   "description": "Easily create React apps using the official boilerplate, directly from VSCode!",
   "icon": "logo.png",
   "publisher": "zaguini",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.39.2"
   },

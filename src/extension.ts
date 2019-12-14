@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
     const values = {
       path: '',
       id: '',
-      typeScript: false
+      typescript: false,
     }
 
     const input = vscode.window.createInputBox()
@@ -32,17 +32,15 @@ export function activate(context: vscode.ExtensionContext) {
       input.dispose()
 
       const selectedItem = await vscode.window.showQuickPick(['Yep', 'Nope'], {
-        placeHolder: 'Typescript?'
+        placeHolder: 'Typescript?',
       })
 
-      if (selectedItem === 'Yep') {
-        values.typeScript = true
-      }
+      values.typescript = selectedItem === 'Yep'
 
       try {
         const result = await vscode.window.showOpenDialog({
           canSelectFolders: true,
-          canSelectFiles: false
+          canSelectFiles: false,
         })
 
         const path = get(result, '[0].path')
@@ -60,20 +58,20 @@ export function activate(context: vscode.ExtensionContext) {
         {
           title: 'Creating your React app',
           location: vscode.ProgressLocation.Notification,
-          cancellable: true
+          cancellable: true,
         },
         (progress, token) => {
           return new Promise(async (resolve, reject) => {
             const reportTimeout = setTimeout(() => {
               progress.report({
-                message: 'Hang on tight! I am working on it.'
+                message: 'Hang on tight! I am working on it.',
               })
-            }, 5000)
+            }, 10000)
 
-            let command = `npx create-react-app ${values.id}`
+            let command = `npx --ignore-existing create-react-app ${values.id}`
 
-            if (values.typeScript) {
-              command += ' --typescript'
+            if (values.typescript) {
+              command += ` --template typescript`
             }
 
             const context = cp.exec(command, { cwd: values.path }, (err) => {
@@ -111,7 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                   if (item === 'Current workspace') {
                     vscode.workspace.updateWorkspaceFolders(0, 0, {
-                      uri: appUri
+                      uri: appUri,
                     })
                   } else if (item === 'New window') {
                     vscode.commands.executeCommand('vscode.openFolder', appUri)
